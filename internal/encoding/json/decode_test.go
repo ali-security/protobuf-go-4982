@@ -1203,6 +1203,28 @@ func TestDecoder(t *testing.T) {
 			},
 		},
 		{
+			in: `{""}`,
+			want: []R{
+				{V: ObjectOpen},
+				{E: `unexpected character }, missing ":" after field name`},
+			},
+		},
+		{
+			in: `{"":`,
+			want: []R{
+				{V: ObjectOpen},
+				{V: Name{""}},
+				{E: errEOF},
+			},
+		},
+		{
+			in: `{"":}`,
+			want: []R{
+				{V: ObjectOpen},
+				{V: Name{""}},
+				{E: `unexpected token }`},
+			},
+		}, {
 			in: `{
 			  "number": 123e2,
 			  "bool"  : false,
